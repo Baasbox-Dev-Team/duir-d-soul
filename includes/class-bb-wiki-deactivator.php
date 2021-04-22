@@ -6,8 +6,8 @@
  * @link       http://example.com
  * @since      1.0.0
  *
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Bb_Wiki
+ * @subpackage Bb_Wiki/includes
  */
 
 /**
@@ -16,11 +16,11 @@
  * This class defines all code necessary to run during the plugin's deactivation.
  *
  * @since      1.0.0
- * @package    Plugin_Name
- * @subpackage Plugin_Name/includes
+ * @package    Bb_Wiki
+ * @subpackage Bb_Wiki/includes
  * @author     Your Name <email@example.com>
  */
-class Plugin_Name_Deactivator {
+class Bb_Wiki_Deactivator {
 
 	/**
 	 * Short Description. (use period)
