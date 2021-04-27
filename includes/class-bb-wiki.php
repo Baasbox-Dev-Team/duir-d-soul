@@ -99,6 +99,8 @@ class Bb_Wiki {
 	 */
 	private function load_dependencies() {
 
+		require_once plugin_dir_path( dirname( __FILE__ ) ). '/vendor/autoload.php';
+
 		/**
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
@@ -121,6 +123,21 @@ class Bb_Wiki {
 		 * side of the site.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-bb-wiki-public.php';
+
+		/**
+		 * Custom Post Types
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-post_types.php';
+
+		/**
+		 * Articles to Wiki Words Linker
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-words_linker.php';
+
+		/**
+		 * REST API
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-rest_api.php';
 
 		$this->loader = new Bb_Wiki_Loader();
 
@@ -153,9 +170,21 @@ class Bb_Wiki {
 	private function define_admin_hooks() {
 
 		$plugin_admin = new Bb_Wiki_Admin( $this->get_plugin_name(), $this->get_version() );
+		$plugin_post_types = new Bb_Wiki_Post_Types();
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		/**
+		 * The problem with the initial activation code is that when the activation hook runs, it's after the init hook has run,
+		 * so hooking into init from the activation hook won't do anything.
+		 * You don't need to register the CPT within the activation function unless you need rewrite rules to be added
+		 * via flush_rewrite_rules() on activation. In that case, you'll want to register the CPT normally, via the
+		 * loader on the init hook, and also re-register it within the activation function and
+		 * call flush_rewrite_rules() to add the CPT rewrite rules.
+		 *
+		 * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
+		 */
+		$this->loader->add_action( 'init', $plugin_post_types, 'create_custom_post_type', 999 );
 
 	}
 
@@ -169,10 +198,13 @@ class Bb_Wiki {
 	private function define_public_hooks() {
 
 		$plugin_public = new Bb_Wiki_Public( $this->get_plugin_name(), $this->get_version() );
+		$rest_api = new Bb_Wiki_Rest_Api();
+		$words_linker = new Bb_Wiki_Words_Linker();
 
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
 		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
-
+		$this->loader->add_action( 'rest_api_init', $rest_api, 'get_random_word' );
+		$this->loader->add_filter('the_content', $words_linker, 'replace_words');
 	}
 
 	/**
@@ -214,5 +246,14 @@ class Bb_Wiki {
 	public function get_version() {
 		return $this->version;
 	}
+
+	public function d() {
+        call_user_func_array( 'dump' , func_get_args() );
+    }
+
+	public function dd() {
+        call_user_func_array( 'dump' , func_get_args() );
+        die();
+    }
 
 }
