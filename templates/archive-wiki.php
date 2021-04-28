@@ -11,27 +11,59 @@
 
 get_header();
 
-$description = get_the_archive_description();
+// query for your post type
+$query  = new WP_Query([ 
+    'post_type'      => 'wiki',  
+    'posts_per_page' => -1 ,
+    'no_found_rows'  => true,
+    'orderby' => 'title', 
+    'order' => 'DESC'
+]);
+
+if ($query->posts) 
+{
+    foreach ( $query->posts as $key => $post ) {
+        $first_letter = substr($post->post_title,0,1);
+
+        if(!empty($first_letter)) {
+            $results[$first_letter][] = array(
+                'id' => $post->ID,
+                'title' => $post->post_title,
+            );
+        }
+    }
+}
+
+if(!empty($results)) {
+    ksort( $results );
+}
+
 ?>
 
-<?php if ( have_posts() ) : ?>
+<div class="masonry">
+    <?php foreach($results as $letter => $words): ?>
+    <div class="letter-block">
+        <h3><?php echo($letter); ?></h3>
+        <ul>
+            <?php foreach($words as $word): ?>
+            <li><a href="<?php echo rtrim(get_permalink($word["id"]), "/"); ?>"><?php echo $word["title"]; ?></a></li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
+    <?php endforeach; ?>
+</div>
 
-	<header class="page-header alignwide">
-		<?php the_archive_title( '<h1 class="page-title">', '</h1>' ); ?>
-		<?php if ( $description ) : ?>
-			<div class="archive-description"><?php echo wp_kses_post( wpautop( $description ) ); ?></div>
-		<?php endif; ?>
-	</header><!-- .page-header -->
+<style>
+.masonry { /* Masonry container */
+  column-count: 4;
+  column-gap: 1em;
+}
 
-	<?php while ( have_posts() ) : ?>
-		<?php the_post(); ?>
-		<?php get_template_part( 'template-parts/content/content', get_theme_mod( 'display_excerpt_or_full_post', 'excerpt' ) ); ?>
-	<?php endwhile; ?>
-
-	<?php twenty_twenty_one_the_posts_navigation(); ?>
-
-<?php else : ?>
-	<?php get_template_part( 'template-parts/content/content-none' ); ?>
-<?php endif; ?>
+.letter-block { /* Masonry bricks or child elements */
+  display: inline-block;
+  margin: 0 0 1em;
+  width: 100%;
+}
+</style>
 
 <?php get_footer(); ?>
