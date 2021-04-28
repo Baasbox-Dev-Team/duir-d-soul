@@ -291,7 +291,7 @@ class Bb_Wiki_Post_Types {
                  */
                 'rewrite' => array(
                     /* The slug to use for individual posts of this type. */
-                    'slug'       => 'wikis', // string (defaults to the post type name)
+                    'slug'       => 'wiki', // string (defaults to the post type name)
                     /* Whether to show the $wp_rewrite->front slug in the permalink. */
                     'with_front' => true, // bool (defaults to TRUE)
                     /* Whether to allow single post pagination via the <!--nextpage--> quicktag. */

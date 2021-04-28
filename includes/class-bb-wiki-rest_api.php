@@ -15,16 +15,33 @@
 
 class Bb_Wiki_Rest_Api {
 
-    public function get_random_word() {
+    public function register_routes() {
 
         register_rest_route( 'bbwiki/v1', '/random', array(
             'methods'   =>  'GET',
-            'callback'  =>  [$this, 'get_random']
+            'callback'  =>  [$this, 'get_random_word']
+        ) );
+
+        register_rest_route( 'bbwiki/v1', '/all', array(
+            'methods'   =>  'GET',
+            'callback'  =>  [$this, 'get_all_words']
         ) );
 
  	}
 
-    public function get_random() {
+    public function get_all_words() {
+        $posts = get_posts( array('post_type' => 'wiki', 'orderby' => 'title', 'order' => 'DESC') );
+        
+        $data = [];
+
+        foreach($posts as $post) {
+            $data[$post->post_title] = get_permalink($post->ID);
+        };
+
+        return $data;
+    }
+
+    public function get_random_word() {
         $post = get_posts( array('type' => 'wiki', 'orderby' => 'rand', 'posts_per_page' => 1) )[0];
 
         $data = [
