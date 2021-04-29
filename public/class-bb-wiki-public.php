@@ -197,4 +197,60 @@ class Bb_Wiki_Public {
 		return $template;
 	}
 
+	function related_articles_shortcode( $atts ) {
+
+		$args = shortcode_atts([],$atts);
+
+		// Getting actual wiki word
+		global $post;
+		$word = $post->post_title;
+
+		// Searching for related articles that contain the wiki word
+		$posts = get_posts([
+			'post_type' => 'post',
+			's' => $word,
+			'posts_per_page' => 4,
+			'no_found_row' => true
+		]);
+
+
+		$heading = '
+			<h2>Articoli dal blog che contengono questa parola</h2>
+		';
+
+		$articles = '<ul>';
+
+		if(!empty($posts)) {
+			foreach($posts as $post) {
+				$articles = $articles."
+					<li>
+						<a href=".get_permalink($post->ID).">";
+				
+			if(get_the_post_thumbnail($post->ID) != null) $articles = $articles."<img src=".get_the_post_thumbnail($post->ID)." />";
+
+
+			$articles = $articles."<h4>$post->post_title</h4>
+							<p>".get_the_excerpt($post->ID)."</p>
+						</a>
+					</li>
+				";
+			};
+		}
+
+		$result = '<div class="bb-wiki related-articles">'.$heading.$articles.'</div>';
+
+		return $result;
+		
+	}
+
+	function add_related_articles_to_wiki($the_content) {
+        if(get_post_type() == "wiki") { // Checking that we're in the single.php of a wiki
+			$new_content = $the_content."[bbwiki-related-articles]";
+            return $new_content;
+        } else {
+            return $the_content;
+        }
+ 	}
+	
+
 }
