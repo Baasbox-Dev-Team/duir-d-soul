@@ -16,16 +16,19 @@
 class Bb_Wiki_Words_Linker {
 
     public function replace_words($the_content) {
-        if(get_post_type() == "post") { // Checking that we're in the single.php of an article, this exclude wiki posts
+        $licenseChecker = new Bb_Wiki_License_Checker();
+
+        if(get_post_type() == "post" && $licenseChecker->is_license_active() == true) { // Checking that we're in the single.php of an article, this exclude wiki posts
             $wiki_titles = $this->get_all_wiki_titles();
             $new_content = $the_content;
 
-            //dd($wiki_titles);
+            //dd($the_content);
             foreach($wiki_titles as $title) {
                 $permalink = rtrim($title['permalink'], "/");
                 $word = $title['word'];
                 $substitute = '<a href="'.$permalink.'">'.'${1}'.'</a>';
-                $new_content = preg_replace("/\b($word)\b/im", $substitute, $new_content);
+                //$new_content = preg_replace("/\b($word)\b/im", $substitute, $new_content);
+                $new_content = preg_replace("/(?i)<[^>]+(*SKIP)(*F)|\b($word)\b/im", $substitute, $new_content);
             }
 
             return $new_content;

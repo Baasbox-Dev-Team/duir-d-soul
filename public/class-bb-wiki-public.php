@@ -204,12 +204,13 @@ class Bb_Wiki_Public {
 		// Getting actual wiki word
 		global $post;
 		$word = $post->post_title;
+		$options = get_option('bb-wiki');
 
 		// Searching for related articles that contain the wiki word
 		$posts = get_posts([
 			'post_type' => 'post',
 			's' => $word,
-			'posts_per_page' => 4,
+			'posts_per_page' => $options['max_related_articles'],
 			'no_found_row' => true
 		]);
 
@@ -244,7 +245,8 @@ class Bb_Wiki_Public {
 	}
 
 	function add_related_articles_to_wiki($the_content) {
-        if(get_post_type() == "wiki") { // Checking that we're in the single.php of a wiki
+		$options = get_option('bb-wiki');
+        if(get_post_type() == "wiki" && $options['enable_related_articles'] != 'no') { // Checking that we're in the single.php of a wiki
 			$new_content = $the_content."[bbwiki-related-articles]";
             return $new_content;
         } else {

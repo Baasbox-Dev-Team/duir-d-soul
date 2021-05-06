@@ -108,6 +108,11 @@ class Bb_Wiki {
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-loader.php';
 
 		/**
+		 * License Checker
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-license_checker.php';
+
+		/**
 		 * The class responsible for defining internationalization functionality
 		 * of the plugin.
 		 */
@@ -138,6 +143,15 @@ class Bb_Wiki {
 		 * REST API
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-bb-wiki-rest_api.php';
+
+		/**
+		 * Exopite Simple Options Framework
+		 *
+		 * @link https://github.com/JoeSz/Exopite-Simple-Options-Framework
+		 * @author Joe Szalai
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/exopite-simple-options/exopite-simple-options-framework-class.php';
+
 
 		$this->loader = new Bb_Wiki_Loader();
 
@@ -185,6 +199,9 @@ class Bb_Wiki {
 		 * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
 		 */
 		$this->loader->add_action( 'init', $plugin_post_types, 'create_custom_post_type', 999 );
+
+		// Save/Update our plugin options
+		$this->loader->add_action( 'init', $plugin_admin, 'create_menu', 999 );
 
 	}
 
