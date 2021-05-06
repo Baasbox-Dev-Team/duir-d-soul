@@ -19,32 +19,36 @@ class Bb_Wiki_License_Checker {
 
         $options = get_option('bb-wiki');
 
-        $body = [
-            "license-number" => $options['license_number']
-        ];
+        if($options['license_number']) {
+            $body = [
+                "license-number" => $options['license_number']
+            ];
 
-        $args = array(
-            'body'        => $body,
-            'timeout'     => '5',
-            'redirection' => '5',
-            'httpversion' => '1.0',
-            'blocking'    => true,
-            'headers'     => array(),
-            'cookies'     => array(),
-        );
+            $args = array(
+                'body'        => $body,
+                'timeout'     => '5',
+                'redirection' => '5',
+                'httpversion' => '1.0',
+                'blocking'    => true,
+                'headers'     => array(),
+                'cookies'     => array(),
+            );
 
-        if(get_transient('bb_wiki_active_license') == false) {
-            $response = wp_remote_post( 'https://4b048847-0aff-4a7a-9a5c-2d1db3194726.mock.pstmn.io/api/check-license', $args );
-            $license_details = json_decode($response["body"]);
+            if(get_transient('bb_wiki_active_license') == false) {
+                $response = wp_remote_post( 'https://4b048847-0aff-4a7a-9a5c-2d1db3194726.mock.pstmn.io/api/check-license', $args );
+                $license_details = json_decode($response["body"]);
 
-            if($license_details->is_active == true) {
-                set_transient('bb_wiki_active_license', true, 43200);
-                return true;
+                if($license_details->is_active == true) {
+                    set_transient('bb_wiki_active_license', true, 43200);
+                    return true;
+                } else {
+                    return false;
+                }
             } else {
-                return false;
+                return get_transient('bb_wiki_active_license');
             }
         } else {
-            return get_transient('bb_wiki_active_license');
+            return false;
         }
 
     }
