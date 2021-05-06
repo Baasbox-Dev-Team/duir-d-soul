@@ -19,7 +19,7 @@ class Bb_Wiki_License_Checker {
 
         $options = get_option('bb-wiki');
 
-        if($options['license_number']) {
+        if($options != null && $options['license_number']) {
             $body = [
                 "license-number" => $options['license_number']
             ];
