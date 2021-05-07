@@ -35,7 +35,7 @@ class Bb_Wiki_License_Checker {
             );
 
             if(get_transient('bb_wiki_active_license') == false) {
-                $response = wp_remote_post( 'https://4b048847-0aff-4a7a-9a5c-2d1db3194726.mock.pstmn.io/api/check-license', $args );
+                $response = wp_remote_post('https://licensing.baasbox.dev/api/check-license', $args );
                 $license_details = json_decode($response["body"]);
 
                 if($license_details->is_active == true) {

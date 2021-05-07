@@ -223,18 +223,11 @@ class Bb_Wiki_Public {
 
 		if(!empty($posts)) {
 			foreach($posts as $post) {
-				$articles = $articles."
-					<li>
-						<a href=".get_permalink($post->ID).">";
-				
-			if(get_the_post_thumbnail($post->ID) != null) $articles = $articles."<img src=".get_the_post_thumbnail($post->ID)." />";
-
-
-			$articles = $articles."<h4>$post->post_title</h4>
-							<p>".get_the_excerpt($post->ID)."</p>
-						</a>
-					</li>
-				";
+				$articles = $articles."<li><a href=".get_permalink($post->ID).">";
+				if(get_the_post_thumbnail($post->ID) != null) {
+					$articles = $articles.get_the_post_thumbnail($post->ID);
+				}
+				$articles = $articles."<h4>$post->post_title</h4><p>".get_the_excerpt($post->ID)."</p></a></li>";
 			};
 		}
 
