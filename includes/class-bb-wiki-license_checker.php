@@ -21,7 +21,7 @@ class Bb_Wiki_License_Checker {
 
         if($options != null && $options['license_number']) {
             $body = [
-                "license-number" => $options['license_number']
+                "license_number" => $options['license_number']
             ];
 
             $args = array(
@@ -34,11 +34,11 @@ class Bb_Wiki_License_Checker {
                 'cookies'     => array(),
             );
 
-            if(get_transient('bb_wiki_active_license') == false) {
+            if(!get_transient('bb_wiki_active_license')) {
                 $response = wp_remote_post('https://licensing.baasbox.dev/api/check-license', $args );
                 $license_details = json_decode($response["body"]);
 
-                if($license_details->is_active == true) {
+                if($license_details->is_active) {
                     set_transient('bb_wiki_active_license', true, 43200);
                     return true;
                 } else {

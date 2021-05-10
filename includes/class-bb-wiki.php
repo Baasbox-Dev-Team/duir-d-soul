@@ -203,6 +203,8 @@ class Bb_Wiki {
 		// Save/Update our plugin options
 		$this->loader->add_action( 'init', $plugin_admin, 'create_menu', 999 );
 
+		$this->loader->add_action('exopite_sof_do_save_options', $plugin_admin, 'changed_license', 999);
+
 	}
 
 	/**
