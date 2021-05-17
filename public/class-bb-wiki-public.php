@@ -109,7 +109,7 @@ class Bb_Wiki_Public {
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/archive_template
 	 * @link http://wordpress.stackexchange.com/a/116025/90212
 	 */
-	function get_custom_post_type_archive_template($archive_template) {
+	public function get_custom_post_type_archive_template($archive_template) {
 
 		global $post;
 		$custom_post_type = 'wiki';
@@ -143,7 +143,7 @@ class Bb_Wiki_Public {
 
 	// OR
 
-	function locate_template( $template, $settings, $page_type ) {
+	public function locate_template( $template, $settings, $page_type ) {
 
 		$theme_files = array(
 			$page_type . '-' . $settings['custom_post_type'] . '.php',
@@ -179,7 +179,7 @@ class Bb_Wiki_Public {
 
 	}
 
-	function get_custom_post_type_templates( $template ) {
+	public function get_custom_post_type_templates( $template ) {
 		global $post;
 
 		$settings = array(
@@ -197,7 +197,7 @@ class Bb_Wiki_Public {
 		return $template;
 	}
 
-	function related_articles_shortcode( $atts ) {
+	public function related_articles_shortcode( $atts ) {
 
 		$args = shortcode_atts([],$atts);
 
@@ -246,6 +246,53 @@ class Bb_Wiki_Public {
             return $the_content;
         }
  	}
+
+	private static function postsQuery($page) {
+		$options = get_option('bb-wiki');
 	
+		$query  = new WP_Query([ 
+			'post_type'      => 'wiki',
+			'paged' => $page,
+			'posts_per_page' => $options['posts_per_page'],
+			'no_found_rows'  => true,
+			'orderby' => 'title', 
+			'order' => 'ASC'
+		]);
+	
+		return $query;
+	}
+	
+	private static function makeFirstLetterPostsArray($query) {
+	
+		if($query->post_count == 0) {
+			$query = self::postsQuery(1);
+		}
+	
+		if ($query->posts) 
+		{
+			foreach ( $query->posts as $key => $post ) {
+				$first_letter = substr($post->post_title,0,1);
+	
+				if(!empty($first_letter)) {
+					$results[$first_letter][] = array(
+						'id' => $post->ID,
+						'title' => $post->post_title,
+					);
+				}
+			}
+		}
+	
+		if(!empty($results)) {
+			ksort( $results );
+		}
+	
+		return $results;
+	}
+
+	public static function getPaginatedWikiByLetters($page) {
+		$results = self::makeFirstLetterPostsArray(self::postsQuery($page));
+
+		return $results;
+	}
 
 }

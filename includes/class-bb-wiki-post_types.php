@@ -31,23 +31,23 @@ class Bb_Wiki_Post_Types {
             'name'                  => $fields['plural'],
             'singular_name'         => $fields['singular'],
             'menu_name'             => $fields['menu_name'],
-            'new_item'              => sprintf( __( 'New %s', 'plugin-name' ), $fields['singular'] ),
-            'add_new_item'          => sprintf( __( 'Add new %s', 'plugin-name' ), $fields['singular'] ),
-            'edit_item'             => sprintf( __( 'Edit %s', 'plugin-name' ), $fields['singular'] ),
-            'view_item'             => sprintf( __( 'View %s', 'plugin-name' ), $fields['singular'] ),
-            'view_items'            => sprintf( __( 'View %s', 'plugin-name' ), $fields['plural'] ),
-            'search_items'          => sprintf( __( 'Search %s', 'plugin-name' ), $fields['plural'] ),
-            'not_found'             => sprintf( __( 'No %s found', 'plugin-name' ), strtolower( $fields['plural'] ) ),
-            'not_found_in_trash'    => sprintf( __( 'No %s found in trash', 'plugin-name' ), strtolower( $fields['plural'] ) ),
-            'all_items'             => sprintf( __( 'All %s', 'plugin-name' ), $fields['plural'] ),
-            'archives'              => sprintf( __( '%s Archives', 'plugin-name' ), $fields['singular'] ),
-            'attributes'            => sprintf( __( '%s Attributes', 'plugin-name' ), $fields['singular'] ),
-            'insert_into_item'      => sprintf( __( 'Insert into %s', 'plugin-name' ), strtolower( $fields['singular'] ) ),
-            'uploaded_to_this_item' => sprintf( __( 'Uploaded to this %s', 'plugin-name' ), strtolower( $fields['singular'] ) ),
+            'new_item'              => sprintf( __( 'Nuovo articolo %s', 'plugin-name' ), $fields['singular'] ),
+            'add_new_item'          => sprintf( __( 'Aggiungi nuovo articolo %s', 'plugin-name' ), $fields['singular'] ),
+            'edit_item'             => sprintf( __( 'Modifica articolo %s', 'plugin-name' ), $fields['singular'] ),
+            'view_item'             => sprintf( __( 'Visualizza articolo %s', 'plugin-name' ), $fields['singular'] ),
+            'view_items'            => sprintf( __( 'Visualizza articoli %s', 'plugin-name' ), $fields['plural'] ),
+            'search_items'          => sprintf( __( 'Cerca articoli %s', 'plugin-name' ), $fields['plural'] ),
+            'not_found'             => sprintf( __( 'Nessun articolo %s trovato', 'plugin-name' ), strtolower( $fields['plural'] ) ),
+            'not_found_in_trash'    => sprintf( __( 'Nessun articolo %s trovato nel cestino', 'plugin-name' ), strtolower( $fields['plural'] ) ),
+            'all_items'             => sprintf( __( 'Tutti gli articoli %s', 'plugin-name' ), $fields['plural'] ),
+            'archives'              => sprintf( __( 'Archivi articoli %s', 'plugin-name' ), $fields['singular'] ),
+            'attributes'            => sprintf( __( 'Attributi articoli %s', 'plugin-name' ), $fields['singular'] ),
+            'insert_into_item'      => sprintf( __( 'Inserisci dentro articolo %s', 'plugin-name' ), strtolower( $fields['singular'] ) ),
+            'uploaded_to_this_item' => sprintf( __( 'Caricato a questo articolo %s', 'plugin-name' ), strtolower( $fields['singular'] ) ),
 
             /* Labels for hierarchical post types only. */
-            'parent_item'           => sprintf( __( 'Parent %s', 'plugin-name' ), $fields['singular'] ),
-            'parent_item_colon'     => sprintf( __( 'Parent %s:', 'plugin-name' ), $fields['singular'] ),
+            'parent_item'           => sprintf( __( 'Padre %s', 'plugin-name' ), $fields['singular'] ),
+            'parent_item_colon'     => sprintf( __( 'Padre %s:', 'plugin-name' ), $fields['singular'] ),
 
             /* Custom archive label.  Must filter 'post_type_archive_title' to use. */
 			'archive_title'        => $fields['plural'],
@@ -83,6 +83,7 @@ class Bb_Wiki_Post_Types {
             'menu_icon'          => ( isset( $fields['menu_icon'] ) ) ? $fields['menu_icon']: 'dashicons-admin-generic',
             'show_in_nav_menus'  => ( isset( $fields['show_in_nav_menus'] ) ) ? $fields['show_in_nav_menus'] : true,
             'show_in_rest'       => ( isset( $fields['show_in_rest'] ) ) ? $fields['show_in_rest'] : true,
+            'taxonomies'         => ( isset( $fields['taxonomies'] ) ) ? $fields['taxonomies'] : [],
         );
 
         if ( isset( $fields['rewrite'] ) ) {
@@ -149,9 +150,9 @@ class Bb_Wiki_Post_Types {
          * Register Taxnonmies if any
          * @link https://codex.wordpress.org/Function_Reference/register_taxonomy
          */
-        if ( isset( $fields['taxonomies'] ) && is_array( $fields['taxonomies'] ) ) {
+        if ( isset( $fields['custom_taxonomies'] ) && is_array( $fields['custom_taxonomies'] ) ) {
 
-            foreach ( $fields['taxonomies'] as $taxonomy ) {
+            foreach ( $fields['custom_taxonomies'] as $taxonomy ) {
 
                 $this->register_single_post_type_taxnonomy( $taxonomy );
 
@@ -250,27 +251,11 @@ class Bb_Wiki_Post_Types {
                  * Post type name/slug. Max of 20 characters! Uppercase and spaces not allowed.
                  */
                 'slug'                  => 'wiki',
-
                 'singular'              => 'Wiki',
                 'plural'                => 'Wiki',
                 'menu_name'             => 'BB Wiki',
-
-                /**
-                 * A short description of what your post type is. As far as I know, this isn't used anywhere
-                 * in core WordPress.  However, themes may choose to display this on post type archives.
-                 */
                 'description'           => 'Pagina enciclopedica che spiega la parola contenuta nel titolo.',
-
-                /**
-                 * Whether the post type has an index/archive/root page like the "page for posts" for regular
-                 * posts. If set to TRUE, the post type name will be used for the archive slug.  You can also
-                 * set this to a string to control the exact name of the archive slug.
-                 */
                 'has_archive'           => true,
-
-                /**
-                 * Whether this post type should allow hierarchical (parent/child/grandchild/etc.) posts.
-                 */
                 'hierarchical'          => false,
 
                 /**
@@ -340,7 +325,7 @@ class Bb_Wiki_Post_Types {
                 /**
                  * Whether to exclude posts with this post type from front end search results.
                  */
-                'exclude_from_search'   => true,
+                'exclude_from_search'   => false,
                 /**
                  * Whether to generate a default UI for managing this post type in the admin. You'll have
                  * more control over what's shown in the admin with the other arguments.  To build your
@@ -413,16 +398,9 @@ class Bb_Wiki_Post_Types {
                 ),
                 */
 
-                'taxonomies'            => array(
-
-                    array(
-                        'taxonomy'              => 'test_category',
-                        'plural'                => 'Test Categories',
-                        'single'                => 'Test Category',
-                        'post_types'            => array( 'test' ),
-                    ),
-
-                ),
+                'taxonomies'            => [
+                    'post_tag'
+                ],
             ),
 
             /*
@@ -487,6 +465,10 @@ class Bb_Wiki_Post_Types {
 
         }
 
+    }
+
+    function pagination_rewrite() {
+        add_rewrite_rule('wiki/page/?([0-9]{1,})/?$', 'index.php?post_type=wiki&paged=$matches[1]', 'top');
     }
 
 }

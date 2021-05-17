@@ -21,7 +21,8 @@ class Bb_Wiki_License_Checker {
 
         if($options != null && $options['license_number']) {
             $body = [
-                "license_number" => $options['license_number']
+                "license_number" => $options['license_number'],
+                "backend_request" => get_site_url()
             ];
 
             $args = array(

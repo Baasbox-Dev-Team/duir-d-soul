@@ -30,12 +30,28 @@ class Bb_Wiki_Rest_Api {
  	}
 
     public function get_all_words() {
-        $posts = get_posts( array('post_type' => 'wiki', 'orderby' => 'title', 'order' => 'DESC') );
+        $posts = get_posts([
+            'post_type' => 'wiki', 
+            'orderby' => 'title', 
+            'order' => 'DESC'
+            ]);
         
         $data = [];
 
         foreach($posts as $post) {
-            $data[$post->post_title] = get_permalink($post->ID);
+            $wiki_meta = get_post_meta($post->ID, 'bb-wiki', true);
+
+            if(!isset($wiki_meta['autolink_enabled'])) {
+                if(!is_array($wiki_meta)) {
+                    $wiki_meta = [];
+                }
+                $wiki_meta['autolink_enabled'] = "yes";
+            }
+
+            if($wiki_meta['autolink_enabled'] == "yes") {
+                $data[$post->post_title] = get_permalink($post->ID);
+            }
+
         };
 
         return $data;

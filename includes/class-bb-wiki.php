@@ -199,6 +199,7 @@ class Bb_Wiki {
 		 * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/261
 		 */
 		$this->loader->add_action( 'init', $plugin_post_types, 'create_custom_post_type', 999 );
+		$this->loader->add_action( 'init', $plugin_post_types, 'pagination_rewrite', 999 );
 
 		// Save/Update our plugin options
 		$this->loader->add_action( 'init', $plugin_admin, 'create_menu', 999 );

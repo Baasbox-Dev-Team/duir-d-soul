@@ -9,36 +9,17 @@
  * @since Twenty Twenty-One 1.0
  */
 
+
+
 get_header();
 
-// query for your post type
-$query  = new WP_Query([ 
-    'post_type'      => 'wiki',  
-    'posts_per_page' => -1 ,
-    'no_found_rows'  => true,
-    'orderby' => 'title', 
-    'order' => 'DESC'
-]);
-
-if ($query->posts) 
-{
-    foreach ( $query->posts as $key => $post ) {
-        $first_letter = substr($post->post_title,0,1);
-
-        if(!empty($first_letter)) {
-            $results[$first_letter][] = array(
-                'id' => $post->ID,
-                'title' => $post->post_title,
-            );
-        }
-    }
-}
-
-if(!empty($results)) {
-    ksort( $results );
-}
+$results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
 
 ?>
+
+<h1 class="display-1">
+	<?php the_title(); ?>
+</h1>
 
 <div class="masonry">
     <?php foreach($results as $letter => $words): ?>
@@ -50,7 +31,12 @@ if(!empty($results)) {
             <?php endforeach; ?>
         </ul>
     </div>
-    <?php endforeach; ?>
+    <?php 
+        endforeach; 
+        wp_reset_postdata();
+        wp_reset_query();
+    ?>
+
 </div>
 
 <style>

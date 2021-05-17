@@ -200,6 +200,17 @@ class Bb_Wiki_Admin {
 					'step' => 1,
 					'min' => 1,
 					'max' => 6,
+				),
+
+				array(
+					'id'     => 'posts_per_page',
+					'type'   => 'range',
+					'title'  => 'Numero massimo di parole per pagina',
+					'description' => 'Definisci il numero massimo di parole da mostrare nell\'archivio.',
+					'default' => 30,
+					'step' => 1,
+					'min' => 1,
+					'max' => 100,
 				)
 			),
 		);
@@ -223,6 +234,54 @@ class Bb_Wiki_Admin {
 		 * instantiate your admin page
 		 */
 		$options_panel = new Exopite_Simple_Options_Framework( $config_submenu, $fields );
+
+		 /*
+    * To add a metabox.
+    * This normally go to your functions.php or another hook
+    */
+    $config_metabox = array(
+
+        /*
+        * METABOX
+        */
+        'type'              => 'metabox',                       // Required, menu or metabox
+        'id'                => $this->plugin_name,    // Required, meta box id, unique, for saving meta: id[field-id]
+        'post_types'        => array('wiki'),         // Post types to display meta box
+        'context'           => 'advanced',
+        'priority'          => 'default',
+        'title'             => 'BB SmartWiki',                  // The name of this page
+        'capability'        => 'edit_posts',                    // The capability needed to view the page
+        'tabbed'            => true,
+		'simple'            => true,  
+
+    );
+
+    $metabox_fields[] = [
+        'name'   => 'general',
+        'title'  => 'Impostazioni Post Wiki',
+        'icon'   => 'dashicons-admin-generic',
+        'fields' => [
+			[
+                'id'          => 'subtitle',
+                'type'        => 'text',
+                'title'       => 'Sottotitolo',
+                'description' => 'Utilizzalo per specificare il nome per esteso di un acronimo.',
+            ],
+            [
+                'id'          => 'autolink_enabled',
+                'type'        => 'switcher',
+                'title'       => 'Autolink Gmail abilitato',
+                'description' => 'Effettua automaticamente il link di questa parola attraverso il plugin Gmail. Se disabilitato questa parola non verrà mai linkata alla rispettiva pagina di definizione su Gmail.',
+                'default'     => 'yes',
+            ]
+		]
+	];
+
+	 /**
+     * instantiate your admin page
+     */
+    $metabox_panel = new Exopite_Simple_Options_Framework( $config_metabox, $metabox_fields );
+
 	
 	}
 
