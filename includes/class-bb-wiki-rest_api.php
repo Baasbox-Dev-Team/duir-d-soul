@@ -33,7 +33,8 @@ class Bb_Wiki_Rest_Api {
         $posts = get_posts([
             'post_type' => 'wiki', 
             'orderby' => 'title', 
-            'order' => 'DESC'
+            'order' => 'DESC',
+            'nopaging' => true
             ]);
         
         $data = [];
