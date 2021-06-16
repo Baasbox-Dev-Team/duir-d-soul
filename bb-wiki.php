@@ -13,7 +13,7 @@
  * @package           Bb_Wiki
  *
  * @wordpress-plugin
- * Plugin Name:       BB Smart Wiki
+ * Plugin Name:       Duir
  * Plugin URI:        https://www.baasbox.com
  * Description:       La Wiki perfettamente integrata con gli articoli di Wordpress, Gmail ed Alexa.
  * Version:           1.0.0

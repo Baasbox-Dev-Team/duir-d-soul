@@ -211,7 +211,8 @@ class Bb_Wiki_Public {
 			'post_type' => 'post',
 			's' => $word,
 			'posts_per_page' => $options['max_related_articles'],
-			'no_found_row' => true
+			'no_found_row' => true,
+			'sentence' => true,
 		]);
 
 
@@ -231,7 +232,11 @@ class Bb_Wiki_Public {
 			};
 		}
 
-		$result = '<div class="bb-wiki related-articles">'.$heading.$articles.'</div>';
+		if(!empty($posts)) {
+			$result = '<div class="bb-wiki related-articles">'.$heading.$articles.'</div>';
+		} else {
+			$result = '';
+		}
 
 		return $result;
 		
