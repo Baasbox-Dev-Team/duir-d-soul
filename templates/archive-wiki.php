@@ -27,7 +27,7 @@ $results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
         <h3><?php echo($letter); ?></h3>
         <ul>
             <?php foreach($words as $word): ?>
-            <li><a href="<?php echo rtrim(get_permalink($word["id"]), "/"); ?>"><?php echo $word["title"]; ?></a></li>
+            <li><h3><a title="<?php echo $word["title"]; ?>" href="<?php echo rtrim(get_permalink($word["id"]), "/"); ?>"><?php echo $word["title"]; ?></a></h3></li>
             <?php endforeach; ?>
         </ul>
     </div>
