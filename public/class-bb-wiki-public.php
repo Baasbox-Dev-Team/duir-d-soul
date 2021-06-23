@@ -224,11 +224,11 @@ class Bb_Wiki_Public {
 
 		if(!empty($posts)) {
 			foreach($posts as $post) {
-				$articles = $articles."<li><a href=".get_permalink($post->ID).">";
+				$articles = $articles."<li><a href=".get_permalink($post->ID)."><div class=\"bb-wiki-related-article\">";
 				if(get_the_post_thumbnail($post->ID) != null) {
-					$articles = $articles.get_the_post_thumbnail($post->ID);
+					$articles = $articles.'<div class="bb-wiki-related-article-image">'.get_the_post_thumbnail($post->ID).'</div>';
 				}
-				$articles = $articles."<h4>$post->post_title</h4><p>".get_the_excerpt($post->ID)."</p></a></li>";
+				$articles = $articles.'<div class="bb-wiki-related-article-content"><h4>$post->post_title</h4><p>'.get_the_excerpt($post->ID).'</p></div></div></a></li>';
 			};
 		}
 
