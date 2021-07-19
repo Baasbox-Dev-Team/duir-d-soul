@@ -58,14 +58,14 @@ class Bb_Wiki_Rest_Api {
     return $suggested_posts;
   }
     
-    public function get_all_words() {
+       public function get_all_words() {
         $posts = get_posts([
-            'post_type' => 'wiki', 
-            'orderby' => 'title', 
+            'post_type' => 'wiki',
+            'orderby' => 'title',
             'order' => 'DESC',
             'nopaging' => true
             ]);
-        
+
         $data = [];
 
         foreach($posts as $post) {
@@ -79,14 +79,27 @@ class Bb_Wiki_Rest_Api {
             }
 
             if($wiki_meta['autolink_enabled'] == "yes") {
-                $data[$post->post_title] = get_permalink($post->ID);
+              if(get_the_tags($post)) {
+                $tags = array_map(function($tag) {
+                  return [
+                    'name' => $tag->name,
+                    'id' => $tag->term_id
+                  ];
+                }, get_the_tags($post));
+              } else {
+                $tags = [];
+              }
+
+                $data[$post->post_title] = ['url' => get_permalink($post->ID), 'tags' => $tags];
             }
 
         };
 
+        $keys = array_map('strlen', array_keys($data));
+        array_multisort($keys, SORT_DESC, $data);
         return $data;
     }
-
+    
     public function get_random_word() {
         $post = get_posts( array('type' => 'wiki', 'orderby' => 'rand', 'posts_per_page' => 1) )[0];
 
