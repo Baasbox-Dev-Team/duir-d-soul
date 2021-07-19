@@ -26,9 +26,38 @@ class Bb_Wiki_Rest_Api {
             'methods'   =>  'GET',
             'callback'  =>  [$this, 'get_all_words']
         ) );
+        
+          register_rest_route( 'bbwiki/v1', '/suggest', array(
+            'methods'   =>  'GET',
+            'callback'  =>  [$this, 'sugget_related_posts']
+        ) );
 
  	}
 
+      public function sugget_related_posts() {
+    $tag_ids = explode(',', $_GET['tags']);
+    $posts = get_posts([
+      'post_type' => 'post',
+      // 'tag__in' => $tag_ids,
+      'nopaging' => true
+    ])
+
+    $suggested_posts = [];
+    foreach ($posts as $post) {
+        $data = [
+            "id" => $post->ID,
+            "date" => $post->post_date,
+            "title" => $post->post_title,
+            "img" => get_the_post_thumbnail_url($post),
+            "url" => get_permalink($post->ID)
+        ];
+
+        array_push($suggested_posts, $data);
+    }
+
+    return $suggested_posts;
+  }
+    
     public function get_all_words() {
         $posts = get_posts([
             'post_type' => 'wiki', 
