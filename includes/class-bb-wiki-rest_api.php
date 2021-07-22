@@ -44,12 +44,14 @@ class Bb_Wiki_Rest_Api {
 
     $suggested_posts = [];
     foreach ($posts as $post) {
+        $author = get_the_author_meta('display_name', $post->post_author);
         $data = [
             "id" => $post->ID,
             "date" => $post->post_date,
             "title" => $post->post_title,
             "img" => get_the_post_thumbnail_url($post),
-            "url" => get_permalink($post->ID)
+            "url" => get_permalink($post->ID),
+            "author" => $author
         ];
 
         array_push($suggested_posts, $data);
