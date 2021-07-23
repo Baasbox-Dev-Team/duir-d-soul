@@ -34,13 +34,13 @@ class Bb_Wiki_Rest_Api {
 
  	}
 
-      public function sugget_related_posts() {
+    public function sugget_related_posts() {
     $tag_ids = explode(',', $_GET['tags']);
     $posts = get_posts([
       'post_type' => 'post',
       // 'tag__in' => $tag_ids,
       'nopaging' => true
-    ])
+    ]);
 
     $suggested_posts = [];
     foreach ($posts as $post) {
