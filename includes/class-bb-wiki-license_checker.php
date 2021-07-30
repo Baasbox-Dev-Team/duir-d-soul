@@ -17,8 +17,7 @@ class Bb_Wiki_License_Checker {
 
     public function is_license_active() {
 
-        $options = get_option('bb-wiki');
-
+        $options = get_option('duir-d-soul');
         if($options != null && $options['license_number']) {
             $body = [
                 "license_number" => $options['license_number'],
@@ -38,7 +37,6 @@ class Bb_Wiki_License_Checker {
             if(!get_transient('bb_wiki_active_license')) {
                 $response = wp_remote_post('https://licensing.baasbox.dev/api/check-license', $args );
                 $license_details = json_decode($response["body"]);
-
                 if($license_details->is_active) {
                     set_transient('bb_wiki_active_license', true, 43200);
                     return true;

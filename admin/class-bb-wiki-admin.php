@@ -287,7 +287,7 @@ class Bb_Wiki_Admin {
 
 	//TODO fare comparazione per invalidare cache licenza
 	public function changed_license($new_options) {
-		$options = get_option('bb-wiki');
+		$options = get_option('duir-d-soul');
 
 		if($options['license_number'] != $new_options['license_number']) {
 			delete_transient('bb_wiki_active_license');
