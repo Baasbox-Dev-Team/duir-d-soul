@@ -72,7 +72,7 @@ class Bb_Wiki {
 		} else {
 			$this->version = '1.0.0';
 		}
-		$this->plugin_name = 'bb-wiki';
+		$this->plugin_name = 'duir-d-soul';
 
 		$this->load_dependencies();
 		$this->set_locale();
