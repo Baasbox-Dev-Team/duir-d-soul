@@ -228,7 +228,7 @@ class Bb_Wiki_Public {
 				if(get_the_post_thumbnail($post->ID) != null) {
 					$articles = $articles.'<div class="bb-wiki-related-article-image">'.get_the_post_thumbnail($post->ID).'</div>';
 				}
-				$articles = $articles.'<div class="bb-wiki-related-article-content"><h4>$post->post_title</h4><p>'.get_the_excerpt($post->ID).'</p></div></div></a></li>';
+				$articles = $articles.'<div class="bb-wiki-related-article-content"><h4>'.$post->post_title.'</h4><p>'.get_the_excerpt($post->ID).'</p></div></div></a></li>';
 			};
 		}
 
