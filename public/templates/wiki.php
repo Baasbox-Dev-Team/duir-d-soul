@@ -1,25 +1,6 @@
 <?php
-/**
- * The template for displaying archive pages
- *
- * @link https://developer.wordpress.org/themes/basics/template-hierarchy/
- *
- * @package WordPress
- * @subpackage Twenty_Twenty_One
- * @since Twenty Twenty-One 1.0
- */
-
-
-
-get_header();
-
 $results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
-
 ?>
-
-<h1 class="display-1">
-	<?php the_title(); ?>
-</h1>
 
 <div class="masonry">
     <?php foreach($results as $letter => $words): ?>
@@ -27,7 +8,7 @@ $results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
         <h3><?php echo($letter); ?></h3>
         <ul>
             <?php foreach($words as $word): ?>
-            <li><h3><a title="<?php echo $word["title"]; ?>" href="<?php echo rtrim(get_permalink($word["id"]), "/"); ?>"><?php echo $word["title"]; ?></a></h3></li>
+            <li><a title="<?php echo $word["title"]; ?>" href="<?php echo rtrim(get_permalink($word["id"]), "/"); ?>"><?php echo $word["title"]; ?></a></li>
             <?php endforeach; ?>
         </ul>
     </div>
@@ -41,8 +22,9 @@ $results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
 
 <style>
 .masonry { /* Masonry container */
-  column-count: 4;
-  column-gap: 1em;
+    column-count: 4;
+    column-gap: 1em;
+    max-width: 100% !important;
 }
 
 .letter-block { /* Masonry bricks or child elements */
@@ -50,6 +32,13 @@ $results = Bb_Wiki_Public::getPaginatedWikiByLetters(get_query_var(('page')));
   margin: 0 0 1em;
   width: 100%;
 }
+
+@media (max-width: 1024px) {
+    .masonry {
+        column-count: 2;
+    }
+}
+
+
 </style>
 
-<?php get_footer(); ?>

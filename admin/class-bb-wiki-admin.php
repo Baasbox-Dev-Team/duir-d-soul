@@ -207,7 +207,7 @@ class Bb_Wiki_Admin {
 					'type'   => 'range',
 					'title'  => 'Numero massimo di parole per pagina',
 					'description' => 'Definisci il numero massimo di parole da mostrare nell\'archivio.',
-					'default' => 30,
+					'default' => 100,
 					'step' => 1,
 					'min' => 1,
 					'max' => 100,

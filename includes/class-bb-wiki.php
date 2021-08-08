@@ -232,8 +232,11 @@ class Bb_Wiki {
 		 * @link https://github.com/DevinVinson/WordPress-Plugin-Boilerplate/issues/262
 		 */
 		$this->loader->add_shortcode( "bbwiki-related-articles", $plugin_public, "related_articles_shortcode", $priority = 10, $accepted_args = 2 );
-		
-		// Override archive template location for custom post type
+
+        $this->loader->add_shortcode( "bbwiki-list", $plugin_public, "bb_wiki_list_shortcode", $priority = 10, $accepted_args = 2 );
+
+
+        // Override archive template location for custom post type
 		$this->loader->add_filter( 'archive_template', $plugin_public, 'get_custom_post_type_archive_template' );
 		//OR
 		$this->loader->add_filter( 'template_include', $plugin_public, 'get_custom_post_type_templates' );
