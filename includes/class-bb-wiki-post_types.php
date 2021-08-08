@@ -255,7 +255,7 @@ class Bb_Wiki_Post_Types {
                 'plural'                => 'Wiki',
                 'menu_name'             => 'Duir',
                 'description'           => 'Pagina enciclopedica che spiega la parola contenuta nel titolo.',
-                'has_archive'           => true,
+                'has_archive'           => false,
                 'hierarchical'          => false,
 
                 /**

@@ -197,7 +197,17 @@ class Bb_Wiki_Public {
 		return $template;
 	}
 
-	public function related_articles_shortcode( $atts ) {
+
+    public function bb_wiki_list_shortcode($atts) {
+        $args = shortcode_atts([],$atts);
+        ob_start();
+        include 'templates/wiki.php';
+        return ob_get_clean();
+    }
+
+
+
+    public function related_articles_shortcode( $atts ) {
 
 		$args = shortcode_atts([],$atts);
 
