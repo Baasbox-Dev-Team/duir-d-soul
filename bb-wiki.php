@@ -46,8 +46,6 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     'duir-d-soul'
 );
 
-//Set the branch that contains the stable release.
-$myUpdateChecker->setBranch('master');
 $myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 
