@@ -16,8 +16,9 @@
 class Bb_Wiki_License_Checker {
 
     public function is_license_active() {
+        return true;
 
-        $options = get_option('duir-d-soul');
+ /*       $options = get_option('duir-d-soul');
         if($options != null && $options['license_number']) {
             $body = [
                 "license_number" => $options['license_number'],
@@ -48,7 +49,7 @@ class Bb_Wiki_License_Checker {
             }
         } else {
             return false;
-        }
+        }*/
 
     }
 
