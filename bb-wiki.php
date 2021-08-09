@@ -9,14 +9,14 @@
  * that starts the plugin.
  *
  * @link              https://www.baasbox.com
- * @since             1.0.4.1
+ * @since             1.0.4.2
  * @package           Bb_Wiki
  *
  * @wordpress-plugin
  * Plugin Name:       Duir
  * Plugin URI:        https://www.baasbox.com
  * Description:       La Wiki perfettamente integrata con gli articoli di Wordpress, Gmail ed Alexa.
- * Version:           1.0.4.1
+ * Version:           1.0.4.2
  * Author:            Baasbox SRL
  * Author URI:        https://www.baasbox.com/
  * License:           GPL-2.0+
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.4.1' );
+define( 'PLUGIN_NAME_VERSION', '1.0.4.2' );
 
 /**
  * Check for update
