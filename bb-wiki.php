@@ -16,7 +16,7 @@
  * Plugin Name:       Duir
  * Plugin URI:        https://www.baasbox.com
  * Description:       La Wiki perfettamente integrata con gli articoli di Wordpress, Gmail ed Alexa.
- * Version:           1.0.0
+ * Version:           1.0.3
  * Author:            Baasbox SRL
  * Author URI:        https://www.baasbox.com/
  * License:           GPL-2.0+
@@ -49,6 +49,7 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
 
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('master');
+$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 
 /**
