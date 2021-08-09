@@ -9,7 +9,7 @@
  * that starts the plugin.
  *
  * @link              https://www.baasbox.com
- * @since             1.0.0
+ * @since             1.0.3
  * @package           Bb_Wiki
  *
  * @wordpress-plugin
@@ -35,7 +35,7 @@ if ( ! defined( 'WPINC' ) ) {
  * Start at version 1.0.0 and use SemVer - https://semver.org
  * Rename this for your plugin and update it as you release new versions.
  */
-define( 'PLUGIN_NAME_VERSION', '1.0.1' );
+define( 'PLUGIN_NAME_VERSION', '1.0.3' );
 
 /**
  * Check for update
@@ -46,7 +46,6 @@ $myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
     __FILE__,
     'duir-d-soul'
 );
-$myUpdateChecker->getVcsApi()->enableReleaseAssets();
 
 //Set the branch that contains the stable release.
 $myUpdateChecker->setBranch('master');
