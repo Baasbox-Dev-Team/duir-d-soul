@@ -233,7 +233,7 @@ class Bb_Wiki {
 		 */
 		$this->loader->add_shortcode( "bbwiki-related-articles", $plugin_public, "related_articles_shortcode", $priority = 10, $accepted_args = 2 );
 
-        $this->loader->add_shortcode( "bbwiki-list", $plugin_public, "bb_wiki_list_shortcode", $priority = 10, $accepted_args = 2 );
+        $this->loader->add_shortcode( "duir-list", $plugin_public, "bb_wiki_list_shortcode", $priority = 10, $accepted_args = 2 );
 
 
         // Override archive template location for custom post type
