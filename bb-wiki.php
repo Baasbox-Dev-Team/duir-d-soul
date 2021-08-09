@@ -38,6 +38,20 @@ if ( ! defined( 'WPINC' ) ) {
 define( 'PLUGIN_NAME_VERSION', '1.0.0' );
 
 /**
+ * Check for update
+ */
+require 'plugin-update-checker/plugin-update-checker.php';
+$myUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://github.com/Baasbox-Dev-Team/duir-d-soul',
+    __FILE__,
+    'duir-d-soul'
+);
+
+//Set the branch that contains the stable release.
+$myUpdateChecker->setBranch('master');
+
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-bb-wiki-activator.php
  */
