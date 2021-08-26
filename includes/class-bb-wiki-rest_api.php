@@ -93,7 +93,6 @@ class Bb_Wiki_Rest_Api {
                 $tags = [];
               }
 
-              //fixme add check if valid url
               if($wiki_meta['external_url'] && filter_var($wiki_meta['external_url'], FILTER_VALIDATE_URL)) {
                   $url = $wiki_meta['external_url'];
               } else {
