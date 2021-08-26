@@ -310,4 +310,17 @@ class Bb_Wiki_Public {
 		return $results;
 	}
 
+
+	public function redirect_if_external() {
+	    if(is_single()) {
+            $id = get_the_ID();
+            $wiki_meta = get_post_meta($id, $this->plugin_name, true);
+            $url = $wiki_meta['external_url'];
+            if($url && filter_var($url, FILTER_VALIDATE_URL)) {
+                wp_redirect($url);
+                exit();
+            }
+        }
+    }
+
 }

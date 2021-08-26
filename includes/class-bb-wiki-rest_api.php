@@ -71,7 +71,8 @@ class Bb_Wiki_Rest_Api {
         $data = [];
 
         foreach($posts as $post) {
-            $wiki_meta = get_post_meta($post->ID, 'bb-wiki', true);
+            //fixme recuperare 'duir-d-soul' da $this->plugin_name
+            $wiki_meta = get_post_meta($post->ID, 'duir-d-soul', true);
 
             if(!isset($wiki_meta['autolink_enabled'])) {
                 if(!is_array($wiki_meta)) {
@@ -92,7 +93,14 @@ class Bb_Wiki_Rest_Api {
                 $tags = [];
               }
 
-                $data[$post->post_title] = ['url' => get_permalink($post->ID), 'tags' => $tags];
+              //fixme add check if valid url
+              if($wiki_meta['external_url'] && filter_var($wiki_meta['external_url'], FILTER_VALIDATE_URL)) {
+                  $url = $wiki_meta['external_url'];
+              } else {
+                  $url = get_permalink($post->ID);
+              }
+
+                $data[$post->post_title] = ['url' => $url, 'tags' => $tags];
             }
 
         };

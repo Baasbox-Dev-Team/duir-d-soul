@@ -244,6 +244,8 @@ class Bb_Wiki {
 		// Registering REST API Routes
 		$this->loader->add_action( 'rest_api_init', $rest_api, 'register_routes' );
 
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'redirect_if_external' );
+
 		// Link words in Articles
 		$this->loader->add_filter('the_content', $words_linker, 'replace_words');
 
