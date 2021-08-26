@@ -261,6 +261,12 @@ class Bb_Wiki_Admin {
         'title'  => 'Impostazioni Post Wiki',
         'icon'   => 'dashicons-admin-generic',
         'fields' => [
+            [
+                'id'          => 'external_url',
+                'type'        => 'text',
+                'title'       => 'Link esterno',
+                'description' => "Utilizza questo campo se vuoi reindirizzare l'utente verso un url esterno",
+            ],
 			[
                 'id'          => 'subtitle',
                 'type'        => 'text',
