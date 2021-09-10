@@ -315,9 +315,8 @@ class Bb_Wiki_Public {
 	    if(is_single()) {
             $id = get_the_ID();
             $wiki_meta = get_post_meta($id, $this->plugin_name, true);
-            $url = $wiki_meta['external_url'];
-            if($url && filter_var($url, FILTER_VALIDATE_URL)) {
-                wp_redirect($url);
+            if(isset($wiki_meta['external_url']) && filter_var($wiki_meta['external_url'], FILTER_VALIDATE_URL)) {
+                wp_redirect($wiki_meta['external_url']);
                 exit();
             }
         }
